@@ -1,0 +1,99 @@
+<style>
+  .container, page{
+    height: 100%;
+  }
+  .my-echart {
+    height: 100%;
+  }
+</style>
+<template>
+  <view class="container">
+    <echarts class="my-echart"  :ec="ec" />
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import Echarts from '../components/echart'
+  import { connect } from 'wepy-redux'
+
+  @connect({
+    num (state) {
+      return state.counter.num
+    }
+  })
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '小程序仪表盘'
+    }
+    components = {
+      echarts: Echarts
+    }
+
+    data = {
+      list: [1, 2],
+      ec: {
+        option: {
+          backgroundColor: '#ffffff',
+          color: ['#37A2DA', '#32C5E9', '#67E0E3'],
+          series: [{
+            // radius: '100%', // 表盘宽度
+            name: '业务指标',
+            type: 'gauge',
+            detail: {
+              formatter: '{value}分'
+            },
+            // axisTick: {
+            //   show: false // 小分割线
+            // },
+            axisLabel: {
+              show: true // 刻度文字
+            },
+            // splitLine: {
+            //   show: false // 大分割线
+            // },
+            title: {
+              show: true,
+              textStyle: {
+                'color': 'white'
+              }
+            },
+            axisLine: {
+              show: true,
+              lineStyle: {
+                width: 30,
+                shadowBlur: 0,
+                color: [
+                  [0.3, '#67e0e3'],
+                  [0.7, '#37a2da'],
+                  [1, '#fd666d']
+                ]
+              }
+            },
+            data: [{
+              value: 90,
+              name: '24分30秒'
+            }]
+          }]
+        }
+      }
+    }
+
+    computed = {
+      now () {
+        return +new Date()
+      }
+    }
+
+    methods = {
+      tap () {
+        console.log('do noting from ' + this.$name)
+      }
+    }
+
+    onLoad() {
+      // console.log('onLoad')
+    }
+  }
+</script>
